@@ -5,7 +5,7 @@ Production-grade HTTP service that tracks unique IP addresses from log entries a
 ## Features
 
 - Thread-safe IP tracking with concurrent request handling
-- Dual HTTP servers (log ingestion and metrics)
+- Dual HTTP servers (logs ingestion and metrics)
 - Graceful shutdown with configurable timeout
 - Structured JSON logging with configurable levels
 - Environment-based configuration
@@ -16,7 +16,6 @@ Production-grade HTTP service that tracks unique IP addresses from log entries a
 - Docker and Docker Compose support
 
 ## Project Structure
-
 
 ```
 .
@@ -43,6 +42,38 @@ Production-grade HTTP service that tracks unique IP addresses from log entries a
 ├── Makefile
 └── go.mod
 ```
+
+## Benchmarking
+
+The project includes a comprehensive benchmark suite using [Gobench](https://github.com/gobench-io/gobench).
+
+### Quick Start
+
+```bash
+# Install Gobench
+make bench-setup
+
+# Start the service
+make run
+
+# In another terminal, start Gobench
+make bench-run
+# Then open http://localhost:8080 and create a new application with the scenario from benchmarks/gobench/scenario.go
+```
+
+### Available Scenarios
+
+**Normal Load Test** (`benchmarks/gobench/scenario.go`)
+- 10 VUs for log ingestion (200 RPS total)
+- 5 VUs for metrics polling
+- 2 minute duration
+
+**Stress Test** (`benchmarks/gobench/scenario_stress.go`)
+- 100 VUs (10,000 RPS total)
+- 5 minute duration
+- Tests scalability limits
+
+See `benchmarks/gobench/README.md` for detailed documentation.
 
 ## Configuration
 
